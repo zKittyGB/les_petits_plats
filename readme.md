@@ -1,3 +1,3 @@
 _Start projet 7_
 Les petits plats
-Autre chose
+Quelque chose

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <link href="css/style.css" rel="stylesheet" type="text/css" />
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=no"
+    />
+    <script
+      src="https://kit.fontawesome.com/e477107ff1.js"
+      crossorigin="anonymous"
+    ></script>
+    <!-- Intégration des icons -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700&family=Roboto:wght@300;400;500;700&family=Shrikhand&display=swap"
+      rel="stylesheet"
+    />
+    <title>Les petits plats</title>
+  </head>
+  <body>
+    <header>
+      <img
+        src="assets/images/logo.png"
+        class="logo"
+        alt="Les petits plats logo"
+      />
+    </header>
+    <main id="main">
+      <!-- zone de recherche-->
+      <form class="research_form" method="post" action="">
+        <!-- Formulaire de recherche -->
+        <label for="research"></label>
+        <input
+          type="text"
+          name="research"
+          id="research"
+          placeholder="Rechercher une recette"
+          maxlength="20"
+        />
+        <button class="search_glass">
+          <i class="fa-solid fa-magnifying-glass fa-2xl"></i>
+        </button>
+      </form>
+      <!-- zone des filtres-->
+      <div class="filtres">
+        <div class="rectangle bleu">Ingredients</div>
+        <div class="rectangle vert">Appareils</div>
+        <div class="rectangle orange">Ustensiles</div>
+      </div>
+      <div class="liste_recettes">
+        <div class="card">
+          <div class="card_photo"></div>
+          <div class="card_info">
+            <div class="card_titre">
+              <div class="card_nom">Limonade de Coco</div>
+              <div class="card_duree">10 min</div>
+            </div>
+            <div class="card_recette">
+              <div class="card_ingredients">
+                <ul>
+                  <li>Lait de coco:400ml</li>
+                  <li>Lait de coco:400ml</li>
+                  <li>Lait de coco:400ml</li>
+                  <li>Lait de coco:400ml</li>
+                  <li>Lait de coco:400ml</li>
+                </ul>
+              </div>
+              <div class="card_instructions">
+                <p>
+                  Mettre les glaçons à votre gout dans le blender,
+                  ajouterdddddddddddddd
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

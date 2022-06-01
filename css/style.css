@@ -53,15 +53,27 @@ header{
     margin-top: 30px;
 }
 
+.filtres_listes
+
 .rectangle{
-    display: flex;
     width:170px;
     height:69px;
     border-radius: 5px;
     color:#ffffff;
     margin-right:20px;
-    text-indent: 20px;
-    align-items: center;
+}
+
+.header_filtre{
+    width:100%;
+    height:100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center; 
+    justify-content: space-around;
+}
+
+.header_filtre p{
+    margin-left:-20px;
 }
 
 .bleu{
@@ -73,9 +85,78 @@ header{
 .orange{
     background-color: #ED6454;
 }
+
+#ingredients{
+    font-size: 18px;
+    color:white;
+    width:80%;
+    margin-top:5px;
+    margin-left:-110px;
+    background: none;
+    border: none;
+    display:none;
+}
+
+#ingredients:focus{
+    outline:none;
+}
+
+#ingredients::placeholder{
+    color: white;
+    font-size: 18px;
+    opacity: 0.5;
+}
+
+#appareils{
+    font-size: 18px;
+    color:white;
+    width:80%;
+    margin-top:5px;
+    margin-left:-110px;
+    background: none;
+    border: none;
+    display:none;
+}
+#appareils:focus{
+    outline:none;
+}
+
+#appareils::placeholder{
+    color: white;
+    font-size: 18px;
+    opacity: 0.5;
+}
+
+#ustensiles{
+    font-size: 18px;
+    color:white;
+    width:80%;
+    margin-top:5px;
+    margin-left:-110px;
+    background: none;
+    border: none;
+    display:none;
+}
+
+#ustensiles::focus{
+    outline:none;
+}
+
+#ustensiles::placeholder{
+    color: white;
+    font-size: 18px;
+    opacity: 0.5;
+}
 /*!!! Fin mise en forme filtres !!!*/
 
 /*!!! Début mise en forme des cards !!!*/
+.liste_recettes{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content:space-between ;
+    width:100%;
+}
 .card{
     width:380px;
     height:364px;
@@ -102,8 +183,22 @@ header{
     font-weight: 400;
 }
 
+.card_nom{
+    width:230px;
+    height:22px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 .card_duree{
+    display:flex;
+    flex-direction: row;
     font-weight: 700;
+}
+
+.card_duree p{
+    margin:0;
+    margin-left:5px;
 }
 
 .card_recette{
@@ -124,7 +219,8 @@ header{
     width:171px;
     height:105px;
     font-weight: 400;
-
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 ul{

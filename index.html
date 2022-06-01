@@ -44,38 +44,51 @@
       </form>
       <!-- zone des filtres-->
       <div class="filtres">
-        <div class="rectangle bleu">Ingredients</div>
-        <div class="rectangle vert">Appareils</div>
-        <div class="rectangle orange">Ustensiles</div>
-      </div>
-      <div class="liste_recettes">
-        <div class="card">
-          <div class="card_photo"></div>
-          <div class="card_info">
-            <div class="card_titre">
-              <div class="card_nom">Limonade de Coco</div>
-              <div class="card_duree">10 min</div>
-            </div>
-            <div class="card_recette">
-              <div class="card_ingredients">
-                <ul>
-                  <li>Lait de coco:400ml</li>
-                  <li>Lait de coco:400ml</li>
-                  <li>Lait de coco:400ml</li>
-                  <li>Lait de coco:400ml</li>
-                  <li>Lait de coco:400ml</li>
-                </ul>
-              </div>
-              <div class="card_instructions">
-                <p>
-                  Mettre les glaçons à votre gout dans le blender,
-                  ajouterdddddddddddddd
-                </p>
-              </div>
-            </div>
+        <div class="rectangle bleu">
+          <div class="header_filtre">
+            <label for="ingredients"></label>
+            <input
+              type="text"
+              name="ingredients"
+              id="ingredients"
+              placeholder="Rechercher un ingrédient"
+            />
+            <p>Ingredients</p>
+            <em class="fa-solid fa-chevron-down"></em>
+          </div>
+        </div>
+        <div class="rectangle vert">
+          <div class="header_filtre">
+            <label for="appareils"></label>
+            <input
+              type="text"
+              name="appareils"
+              id="appareils"
+              placeholder="Rechercher un ingrédient"
+            />
+            <p>Appareils</p>
+            <em class="fa-solid fa-chevron-down"></em>
+          </div>
+        </div>
+        <div class="rectangle orange">
+          <div class="header_filtre">
+            <label for="ustensiles"></label>
+            <input
+              type="text"
+              name="ustensiles"
+              id="ustensiles"
+              placeholder="Rechercher un ingrédient"
+            />
+            <p>Ustensiles</p>
+            <em class="fa-solid fa-chevron-down"></em>
           </div>
         </div>
       </div>
+      <div class="liste_recettes"></div>
     </main>
+    <script src="scripts/factories/recipes.js"></script>
+    <script src="data/recipes.js"></script>
+    <script src="scripts/pages/index.js"></script>
+    <script src="scripts/utils/filtre.js"></script>
   </body>
 </html>

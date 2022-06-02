@@ -59,7 +59,7 @@ const recipes = [
                 "quantity" : 5
             },
             {
-                "ingredient" : "Lait de Coco",
+                "ingredient" : "Lait de coco",
                 "quantity" : 100,
                 "unit" : "ml"
             }
@@ -735,7 +735,7 @@ const recipes = [
                 "unit": "cl"
             },
             {
-                "ingredient": "Crème Fraiche",
+                "ingredient": "Crème fraiche",
                 "quantity" : 1,
                 "unit": "cuillères à soupe"
             }
@@ -805,7 +805,7 @@ const recipes = [
                 "quantity": 3
             },
             {
-                "ingredient": "Crème Fraîche",
+                "ingredient": "Crème Fraiche",
                 "quantity": 20,
                 "unit": "cl"
             },
@@ -984,7 +984,7 @@ const recipes = [
                 "unit":"grammes"
             },
             {
-                "ingredient": "Crême fraîche",
+                "ingredient": "Crème fraîche",
                 "quantity": 10,
                 "unit": "cl"
             }
@@ -1171,7 +1171,7 @@ const recipes = [
                 "unit": "grammes"
             },
             {
-                "ingredient": "Crème fraîche",
+                "ingredient": "Crème fraiche",
                 "quantity": 20,
                 "unit": "cl"
             },

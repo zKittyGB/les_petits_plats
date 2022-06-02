@@ -53,27 +53,12 @@ header{
     margin-top: 30px;
 }
 
-.filtres_listes
-
 .rectangle{
     width:170px;
     height:69px;
     border-radius: 5px;
     color:#ffffff;
     margin-right:20px;
-}
-
-.header_filtre{
-    width:100%;
-    height:100%;
-    display: flex;
-    flex-direction: row;
-    align-items: center; 
-    justify-content: space-around;
-}
-
-.header_filtre p{
-    margin-left:-20px;
 }
 
 .bleu{
@@ -89,9 +74,9 @@ header{
 #ingredients{
     font-size: 18px;
     color:white;
-    width:80%;
+    width:100%;
     margin-top:5px;
-    margin-left:-110px;
+    margin-left:20px;
     background: none;
     border: none;
     display:none;
@@ -146,6 +131,46 @@ header{
     color: white;
     font-size: 18px;
     opacity: 0.5;
+}
+
+.header_filtre{
+    width:100%;
+    height:70px;
+    display: flex;
+    flex-direction: row;
+    align-items: center; 
+    justify-content: space-around;
+}
+
+.header_filtre p{
+    margin-left:-20px;
+}
+
+.liste_filtre{
+    display:flex;
+    flex-direction: row;
+    width:100%;
+    height:80%;
+    margin-right:0px;
+    justify-content: space-between;
+}
+
+.liste_filtre ul{
+    margin-top:0px;
+}
+.liste_filtre li{
+    margin-bottom: 10px;
+}
+.ulGauche{
+    margin-left:20px;
+}
+
+.ulDroit{
+    margin-right:20px;
+}
+
+.ulPressKey{
+    margin-left:20px;
 }
 /*!!! Fin mise en forme filtres !!!*/
 

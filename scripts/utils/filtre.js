@@ -63,10 +63,10 @@ function filtreIngredients(){
             //moduler les listes selon les valeurs d'input
             divListeFiltre.appendChild(ulPressKey)
             ulPressKey.style.display="none"
-            ingredientInput.addEventListener("keydown",(e)=>{
+            ingredientInput.addEventListener("keyup",(e)=>{
                 const allLi = document.querySelectorAll(".bleu ul");
                 if(e.key !== "Backspace"){
-                    let ingredientInputValue = `${ingredientInput.value}${e.key}`
+                    let ingredientInputValue = `${ingredientInput.value}`
                     //dans le cas ou la valeur input = vide on efface la liste de base
                     if(ingredientInputValue !=="" && ingredientInputValue.length >= "3"){
                         allLi.forEach((newAllLi)=>{
@@ -97,12 +97,8 @@ function filtreIngredients(){
                             newAllLi.style.display="block"
                         })
                         divIngredients.style.width ="50%"
-                        divIngredients.style.height ="69px"
-                        divIngredients.style.maxHeight ="69px"
-                        
-                        ingredientInput.style.width="80%"
+                        divIngredients.style.minHeight ="69px"
                         ulPressKey.style.display="none"
-
                     }
                 }
                
@@ -110,7 +106,6 @@ function filtreIngredients(){
         }
         else{
             const allLi = document.querySelectorAll(".bleu ul");
-            const ingredientInput = document.querySelector("#ingredients");
             ingredientsChevronUp.classList.remove("fa-chevron-up")
             ingredientsChevronUp.classList.add("fa-chevron-down")
             ingredientsChevronUp.style.marginTop ="0px"
@@ -119,9 +114,10 @@ function filtreIngredients(){
             divIngredients.style.width ="170px"
             divIngredients.style.height ="69px"
             divIngredients.style.minHeight ="69px"
+            inputIngredients.style.marginLeft ="20px";
             inputIngredients.style.display = "none"
+            inputIngredients.value ="";
             divIngredientsHeader.style.alignItems="center"
-            ingredientInput.value ="";
             //détruit toutes les listes à puces à la fermeture
             allLi.forEach((newAllLi)=>{
                 newAllLi.innerHTML=""

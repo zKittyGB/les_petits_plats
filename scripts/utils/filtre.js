@@ -52,12 +52,12 @@ function filtreIngredients(){
             }
             for(i= 11; i<21; i++){
                 divListeFiltre.appendChild(ulMilieu)
-                ulMilieu.innerHTML += `<li>${filterArrayIngredient[i]}</li>`
+                ulMilieu.innerHTML += `<li id=${filterArrayIngredient[i].replace(/ /g, "_")}>${filterArrayIngredient[i]}</li>`
                 ulMilieu.setAttribute("class","ulMilieu")
             }
             for(i= 22; i<32; i++){
                 divListeFiltre.appendChild(ulDroit)
-                ulDroit.innerHTML += `<li>${filterArrayIngredient[i]}</li>`
+                ulDroit.innerHTML += `<li id=${filterArrayIngredient[i].replace(/ /g, "_")}>${filterArrayIngredient[i]}</li>`
                 ulDroit.setAttribute("class","ulDroit")
             }
             //moduler les listes selon les valeurs d'input
@@ -145,10 +145,26 @@ function displayFilter(){
 function filterClick(id){      
     const displayFilterSection = document.querySelector(".displayFilters")
     const activeFilter = document.createElement("div") 
+    const activeFilterText = document.createElement("p") 
+    const xMark = document.createElement("em") 
     const filterClicked = document.getElementById(`${id}`) 
     displayFilterSection.appendChild(activeFilter)
+    activeFilter.appendChild(activeFilterText)
     activeFilter.setAttribute("class","filterActive bleu")
-    activeFilter.innerHTML=`${id.replace(/_/g, " ")}`
+    activeFilterText.innerHTML=`${id.replace(/_/g, " ")}`
+    activeFilter.appendChild(xMark)
+    xMark.setAttribute("class","fa-regular fa-circle-xmark")
+    xMark.setAttribute("onclick","closeFilterActive(this.parentNode)")
     filterClicked.removeAttribute("onclick")
 }
+//fonction de suppression de filtre actif
+function closeFilterActive(parentNode){
+    let activeFilterTextValue = parentNode.firstChild.textContent
+    activeFilterTextValue = activeFilterTextValue.replace(/ /g, "_")
+    const filterClicked = document.getElementById(`${activeFilterTextValue}`)
+    console.log(activeFilterTextValue)
+    filterClicked.setAttribute("onclick","filterClick(this.id)")
+    parentNode.remove();
+}
 displayFilter()
+

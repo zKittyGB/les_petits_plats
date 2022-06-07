@@ -13,7 +13,7 @@ function filtreIngredients(){
     const inputAppareils = document.getElementById("appareils")
     const inputUstensiles = document.getElementById("ustensiles")
     const divListeFiltre = document.createElement("div")
-
+    //afficher le menu filtre au clic
     ingredientsChevronUp.addEventListener("click", ()=>{
         if(ingredientsChevronUp.classList.value == "fa-solid fa-chevron-down"){
             let arrayIngredient = [];
@@ -47,7 +47,7 @@ function filtreIngredients(){
             //affichage des 3 listes à puces
             for(i= 0; i<10; i++){
                 divListeFiltre.appendChild(ulGauche)
-                ulGauche.innerHTML += `<li>${filterArrayIngredient[i]}</li>`
+                ulGauche.innerHTML += `<li id=${filterArrayIngredient[i].replace(/ /g, "_")}>${filterArrayIngredient[i]}</li>`
                 ulGauche.setAttribute("class","ulGauche")
             }
             for(i= 11; i<21; i++){
@@ -129,3 +129,26 @@ function filtreIngredients(){
 }
 
 filtreIngredients()
+
+//fonction d'affichage des filtres actifs
+function displayFilter(){
+    const chevron = document.querySelectorAll("em")
+    chevron.forEach((newChevron)=>{
+        newChevron.addEventListener("click",()=>{
+            let allFilters = document.querySelectorAll("li")   
+            allFilters.forEach((newAllFilters)=>{
+                newAllFilters.setAttribute("onclick", "filterClick(this.id)")
+            })
+        })
+    })
+}
+function filterClick(id){      
+    const displayFilterSection = document.querySelector(".displayFilters")
+    const activeFilter = document.createElement("div") 
+    const filterClicked = document.getElementById(`${id}`) 
+    displayFilterSection.appendChild(activeFilter)
+    activeFilter.setAttribute("class","filterActive bleu")
+    activeFilter.innerHTML=`${id.replace(/_/g, " ")}`
+    filterClicked.removeAttribute("onclick")
+}
+displayFilter()

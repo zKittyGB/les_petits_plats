@@ -18,9 +18,7 @@ function filtreIngredients(){
         if(ingredientsChevronUp.classList.value == "fa-solid fa-chevron-down"){
             let arrayIngredient = [];
             const ingredientInput = document.querySelector("#ingredients")
-            const ulGauche = document.createElement("ul")
-            const ulMilieu = document.createElement("ul")
-            const ulDroit = document.createElement("ul")
+            const ulFilter = document.createElement("ul")
             const ulPressKey = document.createElement("ul")
             ingredientsChevronUp.classList.remove("fa-chevron-down")
             ingredientsChevronUp.classList.add("fa-chevron-up")
@@ -44,21 +42,11 @@ function filtreIngredients(){
             const filterArrayIngredient= arrayIngredient.filter(function(ele,pos){
                 return arrayIngredient.indexOf(ele)==pos;
             })
-            //affichage des 3 listes à puces
-            for(i= 0; i<10; i++){
-                divListeFiltre.appendChild(ulGauche)
-                ulGauche.innerHTML += `<li id=${filterArrayIngredient[i].replace(/ /g, "_")}>${filterArrayIngredient[i]}</li>`
-                ulGauche.setAttribute("class","ulGauche")
-            }
-            for(i= 11; i<21; i++){
-                divListeFiltre.appendChild(ulMilieu)
-                ulMilieu.innerHTML += `<li id=${filterArrayIngredient[i].replace(/ /g, "_")}>${filterArrayIngredient[i]}</li>`
-                ulMilieu.setAttribute("class","ulMilieu")
-            }
-            for(i= 22; i<32; i++){
-                divListeFiltre.appendChild(ulDroit)
-                ulDroit.innerHTML += `<li id=${filterArrayIngredient[i].replace(/ /g, "_")}>${filterArrayIngredient[i]}</li>`
-                ulDroit.setAttribute("class","ulDroit")
+
+            for(i= 0; i< filterArrayIngredient.length; i++){
+                divListeFiltre.appendChild(ulFilter)
+                ulFilter.innerHTML += `<li id=${filterArrayIngredient[i].replace(/ /g, "_")}>${filterArrayIngredient[i]}</li>`
+                ulFilter.setAttribute("class","ulFilter")
             }
             //moduler les listes selon les valeurs d'input
             divListeFiltre.appendChild(ulPressKey)
@@ -137,7 +125,26 @@ function displayFilter(){
         newChevron.addEventListener("click",()=>{
             let allFilters = document.querySelectorAll("li")   
             allFilters.forEach((newAllFilters)=>{
-                newAllFilters.setAttribute("onclick", "filterClick(this.id)")
+                const displayFilter = document.querySelector(".displayFilters")
+                //empeche de remettre le onclick si le filtre est déjà actif
+                if(displayFilter.textContent !== ""){
+                    const filterActive = document.querySelectorAll(".filterActive")
+                    newAllFilters.setAttribute("onclick", "filterClick(this.id)")
+                    for(i=0; i<filterActive.length; i++){
+                        //comparaison des valeurs des filtres actifs
+                        if(newAllFilters.textContent.toUpperCase().includes(filterActive[i].textContent.toUpperCase())){
+                            newAllFilters.removeAttribute("onclick")
+                        }
+                        else{
+                            newAllFilters.setAttribute("onclick", "filterClick(this.id)")
+                            console.log("pwet3")
+                        }
+                    }
+                }
+                //rajout du onclick en cas d'aucun filtre actif
+                else{
+                    newAllFilters.setAttribute("onclick", "filterClick(this.id)")
+                }
             })
         })
     })
@@ -151,19 +158,34 @@ function filterClick(id){
     displayFilterSection.appendChild(activeFilter)
     activeFilter.appendChild(activeFilterText)
     activeFilter.setAttribute("class","filterActive bleu")
-    activeFilterText.innerHTML=`${id.replace(/_/g, " ")}`
+    id = id.replace(/_/g, " ")
+    activeFilterText.innerHTML=`${id}`
     activeFilter.appendChild(xMark)
     xMark.setAttribute("class","fa-regular fa-circle-xmark")
     xMark.setAttribute("onclick","closeFilterActive(this.parentNode)")
     filterClicked.removeAttribute("onclick")
+    //trier en fonction des filtres actifs
+    let allFilteryRecipes = []
+    let filteryRecipes = []
+    let filterActive = document.querySelectorAll(".filterActive")
+    for(i=0; i < recipes.length; i++){
+        for(j=0; j <recipes[i].ingredients.length; j++){
+            //verifier la liste des ingredients
+            if(recipes[i].ingredients[j].ingredient.toUpperCase().includes(id.toUpperCase())){
+                filteryRecipes.push(recipes[i])
+            }
+        }
+    }
+    displayData(allFilteryRecipes)
 }
 //fonction de suppression de filtre actif
 function closeFilterActive(parentNode){
     let activeFilterTextValue = parentNode.firstChild.textContent
     activeFilterTextValue = activeFilterTextValue.replace(/ /g, "_")
     const filterClicked = document.getElementById(`${activeFilterTextValue}`)
-    console.log(activeFilterTextValue)
+    if(filterClicked){
     filterClicked.setAttribute("onclick","filterClick(this.id)")
+    }
     parentNode.remove();
 }
 displayFilter()

@@ -12,7 +12,7 @@ function research(){
             }
             else{
                 for(j=0; j <recipes[i].ingredients.length; j++){
-                    //empecher d'afficher deux fois la meme recette
+                    //verifier la liste des ingredients
                     if(recipes[i].ingredients[j].ingredient.toUpperCase().includes(inputResearch.value.toUpperCase())){
                         filteryRecipes.push(recipes[i])
                     }

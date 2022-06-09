@@ -149,6 +149,7 @@ function displayFilter(){
         })
     })
 }
+
 function filterClick(id){      
     const displayFilterSection = document.querySelector(".displayFilters")
     const activeFilter = document.createElement("div") 
@@ -165,9 +166,13 @@ function filterClick(id){
     xMark.setAttribute("onclick","closeFilterActive(this.parentNode)")
     filterClicked.removeAttribute("onclick")
     //trier en fonction des filtres actifs
+    let filterArray = []
     let allFilteryRecipes = []
     let filteryRecipes = []
     let filterActive = document.querySelectorAll(".filterActive")
+    filterActive.forEach((newFilterActive)=>{
+        filterArray.push(newFilterActive.textContent)
+    })
     for(i=0; i < recipes.length; i++){
         for(j=0; j <recipes[i].ingredients.length; j++){
             //verifier la liste des ingredients
@@ -176,6 +181,41 @@ function filterClick(id){
             }
         }
     }
+    for(i = 0; i < filteryRecipes.length; i++){
+
+    console.log(filterArray.every(function(val){return filteryRecipes[i].ingredients.indexOf(val) >=0;}))
+    }
+    // //verifier que les recettes contiennent les filtres actifs
+    // let checker = (arr, target) => target.every(v => arr.includes(v))
+    // for(i = 0; i<filteryRecipes.length; i++){
+    //     if(filterArray.every(r=> filteryRecipes[i].ingredients.includes(r))){
+    //         console.log("find")
+    //     }
+    //     else{
+    //         console.log("meurt")
+    //     }
+    //         console.log(filteryRecipes[i].ingredients)
+    //         console.log(filterArray)
+    //         console.log(checker(filterArray, filteryRecipes[i].ingredients))
+    // }
+    // for(i = 0; i < filteryRecipes.length; i++){
+    //     for(j = 0; j < filteryRecipes[i].ingredients.length; j++){
+    //         for(k = 0; k < filterActive.length; k++){
+    //             if(filteryRecipes[i].ingredients[j].ingredient.toUpperCase().includes(filterActive[k].textContent.toUpperCase())){
+    //                 allFilteryRecipes.push(filteryRecipes[i])
+    //             }
+    //         }
+    //     }        
+    // }
+    // filterActive.forEach((newFilterActive)=>{
+    //     for(i=0; i < filteryRecipes.length; i++){
+    //         for(j=0; j <filteryRecipes[i].ingredients.length; j++){
+    //             if(newFilterActive.textContent = filteryRecipes[i].ingredients[j].ingredient){
+
+    //             }
+    //         }
+    //     }
+    // })
     displayData(allFilteryRecipes)
 }
 //fonction de suppression de filtre actif

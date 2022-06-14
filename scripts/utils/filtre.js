@@ -1,6 +1,8 @@
 function filtreIngredients(){
     const divIngredients =document.querySelector(".bleu")
-    const divIngredientsHeader =document.querySelector(".bleu .header_filtre")
+    const divIngredientsHeader =document.querySelector(".ingredients_header_filtre")
+    const divAppareilsHeader =document.querySelector(".appareils_header_filtre")
+    const divUstensilesHeader =document.querySelector(".ustensiles_header_filtre")
     const divAppareils =document.querySelector(".vert")
     const divUstensiles =document.querySelector(".orange")
     const ingredientsChevronUp = document.querySelector(".bleu em")
@@ -13,80 +15,127 @@ function filtreIngredients(){
     const inputAppareils = document.getElementById("appareils")
     const inputUstensiles = document.getElementById("ustensiles")
     const divListeFiltre = document.createElement("div")
-    //afficher le menu filtre au clic
+    let filterArrayIngredient= ""
+    let filterArrayAppareils= ""
+    let filterArrayUstensils= ""
+    //afficher le menu filtre Ingredients au clic
     ingredientsChevronUp.addEventListener("click", ()=>{
+        if(appareilsChevronUp.classList.value=="fa-solid fa-chevron-up"){
+            appareilsChevronUp.click()
+        }
+        if(ustensilesChevronUp.classList.value=="fa-solid fa-chevron-up"){
+            ustensilesChevronUp.click()
+        }
+        let arrayIngredient = [];
+        const ingredientInput = document.querySelector("#ingredients")
+        const researchInput = document.querySelector("#research")
+        const ulFilterIngredients = document.createElement("ul")
         if(ingredientsChevronUp.classList.value == "fa-solid fa-chevron-down"){
-            let arrayIngredient = [];
-            const ingredientInput = document.querySelector("#ingredients")
-            const ulFilter = document.createElement("ul")
-            const ulPressKey = document.createElement("ul")
-            ingredientsChevronUp.classList.remove("fa-chevron-down")
-            ingredientsChevronUp.classList.add("fa-chevron-up")
-            ingredientsChevronUp.style.marginTop ="30px"
-            ingredientsChevronUp.style.marginRight ="20px"
-            texteIngredients.style.display = "none"
-            divIngredients.style.width ="50%"
-            divIngredients.style.height ="397px"
-            divIngredients.style.maxHeight ="397px"
-            inputIngredients.style.display = "block"
-            inputIngredients.style.marginTop ="30px"
-            divIngredientsHeader.style.alignItems="start"
-            divIngredients.appendChild(divListeFiltre)
-            divListeFiltre.setAttribute("class","liste_filtre")
-            for(i=0; i<recipes.length; i++){
-                for(j=0; j<recipes[i].ingredients.length; j++){
-                    arrayIngredient.push(`${recipes[i].ingredients[j].ingredient}`)
+            //creation de la liste des filtres
+            function filtery(){
+                ingredientsChevronUp.classList.remove("fa-chevron-down")
+                ingredientsChevronUp.classList.add("fa-chevron-up")
+                ingredientsChevronUp.style.marginTop ="30px"
+                ingredientsChevronUp.style.marginRight ="20px"
+                texteIngredients.style.display = "none"
+                divIngredients.style.width ="50%"
+                divIngredients.style.height ="397px"
+                divIngredients.style.maxHeight ="397px"
+                inputIngredients.style.display = "block"
+                inputIngredients.style.marginTop ="30px"
+                divIngredientsHeader.style.alignItems="start"
+                divIngredients.appendChild(divListeFiltre)
+                divListeFiltre.setAttribute("class","bleu_liste_filtre")
+                //création de la liste de filtre en fonction de l'input research
+                if(researchInput.value =="")
+                    {
+                    for(i=0; i<recipes.length; i++){
+                        for(j=0; j<recipes[i].ingredients.length; j++){
+                            arrayIngredient.push(`${recipes[i].ingredients[j].ingredient}`)
+                        }
+                    }
+                    //retrait des doublons dans arrayingredient            
+                    filterArrayIngredient= arrayIngredient.filter(function(ele,pos){
+                        return arrayIngredient.indexOf(ele)==pos;
+                    })
+                    for(i= 0; i< filterArrayIngredient.length; i++){
+                        divListeFiltre.appendChild(ulFilterIngredients)
+                        ulFilterIngredients.innerHTML += `<li id=${filterArrayIngredient[i].replace(/ /g, "_")}>${filterArrayIngredient[i]}</li>`
+                        ulFilterIngredients.setAttribute("class","ulFilterIngredients")
+                        const li = document.querySelectorAll(".ulFilterIngredients li")
+                        li.forEach((newLi)=>{
+                            newLi.style.width = "33%"
+                        })
+                    }
+                }
+                else{
+                    for(i=0; i<recipes.length; i++){
+                        for(j=0; j<recipes[i].ingredients.length; j++){
+                            if(recipes[i].ingredients[j].ingredient.toUpperCase().includes(researchInput.value.toUpperCase())){
+                            arrayIngredient.push(`${recipes[i].ingredients[j].ingredient}`)
+                            }
+                        }
+                    }
+                    //retrait des doublons dans arrayingredient            
+                    filterArrayIngredient= arrayIngredient.filter(function(ele,pos){
+                        return arrayIngredient.indexOf(ele)==pos;
+                    })
+                    for(i= 0; i< filterArrayIngredient.length; i++){
+                        divListeFiltre.appendChild(ulFilterIngredients)
+                        ulFilterIngredients.innerHTML += `<li id=${filterArrayIngredient[i].replace(/ /g, "_")}>${filterArrayIngredient[i]}</li>`
+                        ulFilterIngredients.setAttribute("class","ulFilterIngredients")
+                        const li = document.querySelectorAll(".ulFilterIngredients li")
+                        li.forEach((newLi)=>{
+                            newLi.style.width = "33%"
+                        })
+                    }
                 }
             }
-            //retrait des doublons dans arrayingredient            
-            const filterArrayIngredient= arrayIngredient.filter(function(ele,pos){
-                return arrayIngredient.indexOf(ele)==pos;
-            })
-
-            for(i= 0; i< filterArrayIngredient.length; i++){
-                divListeFiltre.appendChild(ulFilter)
-                ulFilter.innerHTML += `<li id=${filterArrayIngredient[i].replace(/ /g, "_")}>${filterArrayIngredient[i]}</li>`
-                ulFilter.setAttribute("class","ulFilter")
-            }
+            filtery()
             //moduler les listes selon les valeurs d'input
-            divListeFiltre.appendChild(ulPressKey)
-            ulPressKey.style.display="none"
             ingredientInput.addEventListener("keyup",(e)=>{
-                const allLi = document.querySelectorAll(".bleu ul");
                 if(e.key !== "Backspace"){
                     let ingredientInputValue = `${ingredientInput.value}`
                     //dans le cas ou la valeur input = vide on efface la liste de base
                     if(ingredientInputValue !=="" && ingredientInputValue.length >= "3"){
-                        allLi.forEach((newAllLi)=>{
-                            newAllLi.style.display="none"
-                        })
                         //vider la liste lié a l'input
-                        ulPressKey.innerHTML = ""
-                        ulPressKey.setAttribute("class","ulPressKey")
-                        ulPressKey.style.display="block"
+                        const li = document.querySelectorAll(".ulFilterIngredients li")
+                        ulFilterIngredients.innerHTML = ""
                         divIngredients.style.width ="223px"
                         divIngredients.style.height ="auto"
                         divIngredients.style.minHeight ="97px"
                         //compare la valeur d'input aux valeurs du tableau
+                        console.log(filterArrayIngredient)
                         filterArrayIngredient.forEach((newFilterArrayIngredient)=>{
                             if(newFilterArrayIngredient.toUpperCase().includes(ingredientInputValue.toUpperCase())){
                                 ingredientInput.style.marginLeft ="20px"
-                                ulPressKey.innerHTML += `<li>${newFilterArrayIngredient}</li>`
+                                ulFilterIngredients.innerHTML += `<li onclick="filterClick(this.id)" id=${newFilterArrayIngredient.replace(/ /g, "_")}>${newFilterArrayIngredient}</li>`
                             }
+                        })
+                        //mise en forme de la zone filtre
+                        ulFilterIngredients.style.flexDirection ="column"
+                        ulFilterIngredients.style.width ="100%"
+                        li.forEach((newLi)=>{
+                            newLi.style.width = "100%"                            
                         })
                     } 
                 }
+                //gestion de raffraichissement en cas de backspace
                 else{
                     let ingredientInputValue = ingredientInput.value
-                    ingredientInputValue= ingredientInputValue.substring(0, ingredientInputValue.length -1)
+                    ingredientInputValue= ingredientInputValue.substring(0, ingredientInputValue.length)
                     //dans le cas ou la valeur input = vide on réaffiche la liste de base
                     if(ingredientInputValue ===""){
-                        allLi.forEach((newAllLi)=>{
-                            newAllLi.style.display="block"
-                        })
+                        const li = document.querySelectorAll(".ulFilterIngredients li")
                         divIngredients.style.width ="50%"
                         divIngredients.style.minHeight ="69px"
-                        ulPressKey.style.display="none"
+                        ulFilterIngredients.style.flexDirection ="row"
+                        li.forEach((newLi)=>{
+                            newLi.style.width = "33%"
+                        })
+                        ulFilterIngredients.innerHTML=""
+                        ulFilterIngredients.remove()
+                        filtery()
                     }
                 }
                
@@ -106,6 +155,7 @@ function filtreIngredients(){
             inputIngredients.style.display = "none"
             inputIngredients.value ="";
             divIngredientsHeader.style.alignItems="center"
+            arrayIngredient = [];
             //détruit toutes les listes à puces à la fermeture
             allLi.forEach((newAllLi)=>{
                 newAllLi.innerHTML=""
@@ -114,10 +164,152 @@ function filtreIngredients(){
             divListeFiltre.remove();
         }
     })
+    appareilsChevronUp.addEventListener("click", ()=>{
+        if(ingredientsChevronUp.classList.value=="fa-solid fa-chevron-up"){
+            ingredientsChevronUp.click()
+        }
+        if(ustensilesChevronUp.classList.value=="fa-solid fa-chevron-up"){
+            ustensilesChevronUp.click()
+        }
+        let arrayAppareils = [];
+        const appareilsInput = document.querySelector("#appareils")
+        const researchInput = document.querySelector("#research")
+        const ulFilterAppareils = document.createElement("ul")
+        if(appareilsChevronUp.classList.value == "fa-solid fa-chevron-down"){
+            //creation de la liste des filtres
+            function filtery(){
+                arrayAppareils=[];
+                appareilsChevronUp.classList.remove("fa-chevron-down")
+                appareilsChevronUp.classList.add("fa-chevron-up")
+                appareilsChevronUp.style.marginTop ="30px"
+                appareilsChevronUp.style.marginRight ="20px"
+                texteAppareils.style.display = "none"
+                divAppareils.style.width ="50%"
+                divAppareils.style.height ="397px"
+                divAppareils.style.maxHeight ="397px"
+                inputAppareils.style.display = "block"
+                inputAppareils.style.marginTop ="30px"
+                divAppareilsHeader.style.alignItems="start"
+                divAppareils.appendChild(divListeFiltre)
+                divListeFiltre.setAttribute("class","vert_liste_filtre")
+                //création de la liste de filtre en fonction de l'input research
+                if(researchInput.value =="")
+                    {
+                    for(i=0; i<recipes.length; i++){
+                            arrayAppareils.push(`${recipes[i].appliance}`)
+                    }
+                    
+                    //retrait des doublons dans arrayingredient            
+                    arrayAppareils= arrayAppareils.filter(function(ele,pos){
+                        return arrayAppareils.indexOf(ele)==pos;
+                    })
+                    for(i= 0; i< arrayAppareils.length; i++){
+                        divListeFiltre.appendChild(ulFilterAppareils)
+                        ulFilterAppareils.innerHTML += `<li id=${arrayAppareils[i].replace(/ /g, "_")}>${arrayAppareils[i]}</li>`
+                        ulFilterAppareils.setAttribute("class","ulFilterAppareils")
+                        const li = document.querySelectorAll(".ulFilterAppareils li")
+                        li.forEach((newLi)=>{
+                            newLi.style.width = "33%"
+                        })
+                    }
+                }
+                else{
+                    for(i=0; i<recipes.length; i++){
+                        for(j=0; j<recipes[i].appliance.length; j++){
+                            if(recipes[i].appliance.toUpperCase().includes(researchInput.value.toUpperCase())){
+                            arrayAppareils.push(`${recipes[i].appliance}`)
+                            }
+                        }
+                    }
+                    for(i= 0; i< arrayAppareils.length; i++){
+                        divListeFiltre.appendChild(ulFilterAppareils)
+                        ulFilterAppareils.innerHTML += `<li id=${arrayAppareils[i].replace(/ /g, "_")}>${arrayAppareils[i]}</li>`
+                        ulFilterAppareils.setAttribute("class","ulFilterAppareils")
+                        const li = document.querySelectorAll(".ulFilterAppareils li")
+                        li.forEach((newLi)=>{
+                            newLi.style.width = "33%"
+                        })
+                    }
+                }
+            }
+            filtery()
+            //moduler les listes selon les valeurs d'input
+            appareilsInput.addEventListener("keyup",(e)=>{
+                if(e.key !== "Backspace"){
+                    let appareilsInputValue = `${appareilsInput.value}`
+                    //dans le cas ou la valeur input = vide on efface la liste de base
+                    if(appareilsInputValue !=="" && appareilsInputValue.length >= "3"){
+                        //vider la liste lié a l'input
+                        const li = document.querySelectorAll(".ulFilterAppareils li")
+                        ulFilterAppareils.innerHTML = ""
+                        divAppareils.style.width ="223px"
+                        divAppareils.style.height ="auto"
+                        divAppareils.style.minHeight ="97px"
+                        //compare la valeur d'input aux valeurs du tableau
+                        arrayAppareils.forEach((newArrayAppareils)=>{
+                            if(newArrayAppareils.toUpperCase().includes(appareilsInputValue.toUpperCase())){
+                                appareilsInput.style.marginLeft ="20px"
+                                ulFilterAppareils.innerHTML += `<li onclick="filterClick(this.id)" id=${newArrayAppareils.replace(/ /g, "_")}>${newArrayAppareils}</li>`
+                            }
+                        })
+                        //mise en forme de la zone filtre
+                        ulFilterAppareils.style.flexDirection ="column"
+                        ulFilterAppareils.style.width ="100%"
+                        li.forEach((newLi)=>{
+                            newLi.style.width = "100%"                            
+                        })
+                    } 
+                }
+                else{
+                    let appareilsInputValue = appareilsInput.value
+                    appareilsInputValue= appareilsInputValue.substring(0, appareilsInputValue.length)
+                    //dans le cas ou la valeur input = vide on réaffiche la liste de base
+                    if(appareilsInputValue ===""){
+                        const li = document.querySelectorAll(".ulFilterAppareils li")
+                        divAppareils.style.width ="50%"
+                        divAppareils.style.minHeight ="69px"
+                        ulFilterAppareils.style.flexDirection ="row"
+                        li.forEach((newLi)=>{
+                            newLi.style.width = "33%"
+                        })
+                        console.log(ulFilterAppareils)
+                        ulFilterAppareils.innerHTML=""
+                        console.log(ulFilterAppareils)
+                        ulFilterAppareils.remove()
+                        console.log(ulFilterAppareils)
+
+                        filtery()
+                    }
+                }
+               
+            })
+        }
+        else{
+            const allLi = document.querySelectorAll("ul");
+            appareilsChevronUp.classList.remove("fa-chevron-up")
+            appareilsChevronUp.classList.add("fa-chevron-down")
+            appareilsChevronUp.style.marginTop ="0px"
+            appareilsChevronUp.style.marginRight ="0px"
+            texteAppareils.style.display = "block";
+            divAppareils.style.width ="170px"
+            divAppareils.style.height ="69px"
+            divAppareils.style.minHeight ="69px"
+            inputAppareils.style.marginLeft ="20px";
+            inputAppareils.style.display = "none"
+            inputAppareils.value ="";
+            divAppareilsHeader.style.alignItems="center"
+            arrayAppareils = []
+            //détruit toutes les listes à puces à la fermeture
+            allLi.forEach((newAllLi)=>{
+                newAllLi.innerHTML=""
+                newAllLi.remove()
+            })
+            divListeFiltre.remove()
+        }
+    })
 }
 
 filtreIngredients()
-
 //fonction d'affichage des filtres actifs
 function displayFilter(){
     const chevron = document.querySelectorAll("em")
@@ -137,7 +329,6 @@ function displayFilter(){
                         }
                         else{
                             newAllFilters.setAttribute("onclick", "filterClick(this.id)")
-                            console.log("pwet3")
                         }
                     }
                 }
@@ -167,8 +358,9 @@ function filterClick(id){
     filterClicked.removeAttribute("onclick")
     //trier en fonction des filtres actifs
     let filterArray = []
-    let allFilteryRecipes = []
     let filteryRecipes = []
+    let allFilteryRecipes = []
+    let filterRecipesIngredient = []
     let filterActive = document.querySelectorAll(".filterActive")
     filterActive.forEach((newFilterActive)=>{
         filterArray.push(newFilterActive.textContent)
@@ -181,42 +373,43 @@ function filterClick(id){
             }
         }
     }
-    for(i = 0; i < filteryRecipes.length; i++){
-
-    console.log(filterArray.every(function(val){return filteryRecipes[i].ingredients.indexOf(val) >=0;}))
+    //Prise en compte de plusieurs filtres
+    if(filterArray != ""){
+        for(i=0; i<filteryRecipes.length;i++){
+            for(j=0; j<filteryRecipes[i].ingredients.length;j++){
+                //Récuperation de tous les ingredients d'une recette pour la mettre dans un nouvel array
+                filterRecipesIngredient.push(filteryRecipes[i].ingredients[j].ingredient)
+            }
+            //Verification que tous les filtres sont inclus dans les ingredients
+            const containsAll = filterArray.every(element =>{
+                return filterRecipesIngredient.includes(element)
+            })
+            //Si oui, push la recette dans le tableau final
+            if(containsAll == true){
+                allFilteryRecipes.push(filteryRecipes[i])
+            }
+            filterRecipesIngredient.length = 0
+            console.log(filterRecipesIngredient)
+        }
+        displayData(allFilteryRecipes)
+        //remise en forme de la section recette selon le nombre de recettes sorties
+        //verification si le nombre de recette est un multiple de 4
+        let remainder = allFilteryRecipes.length % 4
+        console.log(remainder)
+        if(remainder != 0){
+            const recipesSection = document.querySelector(".liste_recettes")
+            const card = document.querySelectorAll(".card")
+            console.log(card)
+            recipesSection.style.justifyContent ="start"
+            card.forEach((newCard)=>{
+                newCard.style.marginRight = "45px"
+            })            
+        }
+        else{
+            const recipesSection = document.querySelector(".liste_recettes")
+            recipesSection.style.justifyContent ="space-between"
+        }
     }
-    // //verifier que les recettes contiennent les filtres actifs
-    // let checker = (arr, target) => target.every(v => arr.includes(v))
-    // for(i = 0; i<filteryRecipes.length; i++){
-    //     if(filterArray.every(r=> filteryRecipes[i].ingredients.includes(r))){
-    //         console.log("find")
-    //     }
-    //     else{
-    //         console.log("meurt")
-    //     }
-    //         console.log(filteryRecipes[i].ingredients)
-    //         console.log(filterArray)
-    //         console.log(checker(filterArray, filteryRecipes[i].ingredients))
-    // }
-    // for(i = 0; i < filteryRecipes.length; i++){
-    //     for(j = 0; j < filteryRecipes[i].ingredients.length; j++){
-    //         for(k = 0; k < filterActive.length; k++){
-    //             if(filteryRecipes[i].ingredients[j].ingredient.toUpperCase().includes(filterActive[k].textContent.toUpperCase())){
-    //                 allFilteryRecipes.push(filteryRecipes[i])
-    //             }
-    //         }
-    //     }        
-    // }
-    // filterActive.forEach((newFilterActive)=>{
-    //     for(i=0; i < filteryRecipes.length; i++){
-    //         for(j=0; j <filteryRecipes[i].ingredients.length; j++){
-    //             if(newFilterActive.textContent = filteryRecipes[i].ingredients[j].ingredient){
-
-    //             }
-    //         }
-    //     }
-    // })
-    displayData(allFilteryRecipes)
 }
 //fonction de suppression de filtre actif
 function closeFilterActive(parentNode){
@@ -226,7 +419,8 @@ function closeFilterActive(parentNode){
     if(filterClicked){
     filterClicked.setAttribute("onclick","filterClick(this.id)")
     }
-    parentNode.remove();
+    parentNode.remove()
+
 }
 displayFilter()
 

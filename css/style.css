@@ -143,7 +143,7 @@ header{
     display:none;
 }
 
-#ustensiles::focus{
+#ustensiles:focus{
     outline:none;
 }
 
@@ -166,7 +166,7 @@ header{
     margin-left:-20px;
 }
 
-.liste_filtre{
+.bleu_liste_filtre, .vert_liste_filtre, .orange_liste_filtre{
     display:flex;
     flex-direction: row;
     width:100%;
@@ -175,10 +175,10 @@ header{
     justify-content: space-between;
 }
 
-.liste_filtre ul{
+.bleu_liste_filtre ul, .vert_liste_filtre ul, .orange_liste_filtre ul{
     margin-top:0px;
 }
-.liste_filtre li{
+.bleu_liste_filtre li, .vert_liste_filtre li, .orange_liste_filtre li{
     margin-bottom: 10px;
 }
 .ulFilterIngredients{

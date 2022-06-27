@@ -16,8 +16,6 @@ function filtreIngredients(){
     const inputUstensiles = document.getElementById("ustensiles")
     const divListeFiltre = document.createElement("div")
     let filterArrayIngredient= ""
-    let filterArrayAppareils= ""
-    let filterArrayUstensils= ""
     //afficher le menu filtre Ingredients au clic
     ingredientsChevronUp.addEventListener("click", ()=>{
         if(appareilsChevronUp.classList.value=="fa-solid fa-chevron-up"){
@@ -65,6 +63,7 @@ function filtreIngredients(){
                         const li = document.querySelectorAll(".ulFilterIngredients li")
                         li.forEach((newLi)=>{
                             newLi.style.width = "33%"
+                            newLi.setAttribute("onclick", "filterClick(this.id)")
                         })
                     }
                 }
@@ -97,7 +96,7 @@ function filtreIngredients(){
                 if(e.key !== "Backspace"){
                     let ingredientInputValue = `${ingredientInput.value}`
                     //dans le cas ou la valeur input = vide on efface la liste de base
-                    if(ingredientInputValue !=="" && ingredientInputValue.length >= "3"){
+                    if(ingredientInputValue !=="" && ingredientInputValue.length >= 3){
                         //vider la liste lié a l'input
                         const li = document.querySelectorAll(".ulFilterIngredients li")
                         ulFilterIngredients.innerHTML = ""
@@ -133,8 +132,9 @@ function filtreIngredients(){
                         li.forEach((newLi)=>{
                             newLi.style.width = "33%"
                         })
-                        ulFilterIngredients.innerHTML=""
-                        ulFilterIngredients.remove()
+                        const ulBleu = document.querySelector(".bleu ul")
+                        ulBleu.innerHTML=""
+                        ulBleu.remove()
                         filtery()
                     }
                 }
@@ -199,7 +199,7 @@ function filtreIngredients(){
                             arrayAppareils.push(`${recipes[i].appliance}`)
                     }
                     
-                    //retrait des doublons dans arrayingredient            
+                    //retrait des doublons dans arrayAppareils          
                     arrayAppareils= arrayAppareils.filter(function(ele,pos){
                         return arrayAppareils.indexOf(ele)==pos;
                     })
@@ -210,6 +210,7 @@ function filtreIngredients(){
                         const li = document.querySelectorAll(".ulFilterAppareils li")
                         li.forEach((newLi)=>{
                             newLi.style.width = "33%"
+                            newLi.setAttribute("onclick", "filterClick(this.id)")
                         })
                     }
                 }
@@ -238,7 +239,7 @@ function filtreIngredients(){
                 if(e.key !== "Backspace"){
                     let appareilsInputValue = `${appareilsInput.value}`
                     //dans le cas ou la valeur input = vide on efface la liste de base
-                    if(appareilsInputValue !=="" && appareilsInputValue.length >= "3"){
+                    if(appareilsInputValue !=="" && appareilsInputValue.length >= 3){
                         //vider la liste lié a l'input
                         const li = document.querySelectorAll(".ulFilterAppareils li")
                         ulFilterAppareils.innerHTML = ""
@@ -263,6 +264,8 @@ function filtreIngredients(){
                 else{
                     let appareilsInputValue = appareilsInput.value
                     appareilsInputValue= appareilsInputValue.substring(0, appareilsInputValue.length)
+                    console.log(typeof appareilsInputValue)
+                    console.log(appareilsInputValue)
                     //dans le cas ou la valeur input = vide on réaffiche la liste de base
                     if(appareilsInputValue ===""){
                         const li = document.querySelectorAll(".ulFilterAppareils li")
@@ -272,12 +275,9 @@ function filtreIngredients(){
                         li.forEach((newLi)=>{
                             newLi.style.width = "33%"
                         })
-                        console.log(ulFilterAppareils)
-                        ulFilterAppareils.innerHTML=""
-                        console.log(ulFilterAppareils)
-                        ulFilterAppareils.remove()
-                        console.log(ulFilterAppareils)
-
+                        const ulVert = document.querySelector(".vert ul")
+                        ulVert.innerHTML=""
+                        ulVert.remove()
                         filtery()
                     }
                 }
@@ -285,7 +285,7 @@ function filtreIngredients(){
             })
         }
         else{
-            const allLi = document.querySelectorAll("ul");
+            const ul = document.querySelectorAll(".rectangle ul");
             appareilsChevronUp.classList.remove("fa-chevron-up")
             appareilsChevronUp.classList.add("fa-chevron-down")
             appareilsChevronUp.style.marginTop ="0px"
@@ -300,11 +300,161 @@ function filtreIngredients(){
             divAppareilsHeader.style.alignItems="center"
             arrayAppareils = []
             //détruit toutes les listes à puces à la fermeture
+
+            for(i=0; i<ul.length; i++){
+                ul[i].innerHTML=""
+                ul[i].remove()
+            }
+
+            divListeFiltre.innerHTML=""
+            divListeFiltre.remove()
+        }
+    })
+    ustensilesChevronUp.addEventListener("click", ()=>{
+        if(appareilsChevronUp.classList.value=="fa-solid fa-chevron-up"){
+            appareilsChevronUp.click()
+        }
+        if(ingredientsChevronUp.classList.value=="fa-solid fa-chevron-up"){
+            ingredientsChevronUp.click()
+        }
+        let arrayUstensiles = [];
+        const ustensilesInput = document.querySelector("#ustensiles")
+        const researchInput = document.querySelector("#research")
+        const ulFilterUstensiles = document.createElement("ul")
+        if(ustensilesChevronUp.classList.value == "fa-solid fa-chevron-down"){
+            //creation de la liste des filtres
+            function filtery(){
+                ustensilesChevronUp.classList.remove("fa-chevron-down")
+                ustensilesChevronUp.classList.add("fa-chevron-up")
+                ustensilesChevronUp.style.marginTop ="30px"
+                ustensilesChevronUp.style.marginRight ="20px"
+                texteUstensiles.style.display = "none"
+                divUstensiles.style.width ="50%"
+                divUstensiles.style.height ="397px"
+                divUstensiles.style.maxHeight ="397px"
+                inputUstensiles.style.display = "block"
+                inputUstensiles.style.marginTop ="30px"
+                divUstensilesHeader.style.alignItems="start"
+                divUstensiles.appendChild(divListeFiltre)
+                divListeFiltre.setAttribute("class","orange_liste_filtre")
+                //création de la liste de filtre en fonction de l'input research
+                if(researchInput.value =="")
+                    {
+                    for(i=0; i<recipes.length; i++){
+                        for(j=0; j<recipes[i].ustensils.length; j++){
+                            arrayUstensiles.push(`${recipes[i].ustensils[j]}`)
+                        }
+                    }
+                    //retrait des doublons dans arrayUstensiles        
+                    arrayUstensiles= arrayUstensiles.filter(function(ele,pos){
+                        return arrayUstensiles.indexOf(ele)==pos;
+                    })
+                    for(i= 0; i< arrayUstensiles.length; i++){
+                        divListeFiltre.appendChild(ulFilterUstensiles)
+                        ulFilterUstensiles.innerHTML += `<li id=${arrayUstensiles[i].replace(/ /g, "_")}>${arrayUstensiles[i]}</li>`
+                        ulFilterUstensiles.setAttribute("class","ulFilterUstensiles")
+                        const li = document.querySelectorAll(".ulFilterUstensiles li")
+                        li.forEach((newLi)=>{
+                            newLi.style.width = "33%"
+                            newLi.setAttribute("onclick", "filterClick(this.id)")
+                        })
+                    }
+                }
+                else{
+                    for(i=0; i<recipes.length; i++){
+                        for(j=0; j<recipes[i].ustensils.length; j++){
+                            if(recipes[i].ustensils[j].toUpperCase().includes(researchInput.value.toUpperCase())){
+                                arrayUstensiles.push(`${recipes[i].ustensils[j]}`)
+                            }
+                        }
+                    }
+                    //retrait des doublons dans arrayingredient            
+                    arrayUstensiles= arrayUstensiles.filter(function(ele,pos){
+                        return arrayUstensiles.indexOf(ele)==pos;
+                    })
+                    for(i= 0; i< arrayUstensiles.length; i++){
+                        divListeFiltre.appendChild(ulFilterUstensiles)
+                        ulFilterUstensiles.innerHTML += `<li id=${ulFilterUstensiles[i].replace(/ /g, "_")}>${ulFilterUstensiles[i]}</li>`
+                        ulFilterUstensiles.setAttribute("class","ulFilterUstensiles")
+                        const li = document.querySelectorAll(".ulFilterUstensiles li")
+                        li.forEach((newLi)=>{
+                            newLi.style.width = "33%"
+                        })
+                    }
+                }
+            }
+            filtery()
+            //moduler les listes selon les valeurs d'input
+            ustensilesInput.addEventListener("keyup",(e)=>{
+                if(e.key !== "Backspace"){
+                    let ustensilesInputValue = `${ustensilesInput.value}`
+                    //dans le cas ou la valeur input = vide on efface la liste de base
+                    if(ustensilesInputValue !=="" && ustensilesInputValue.length >= 3){
+                        //vider la liste lié a l'input
+                        const li = document.querySelectorAll(".ulFilterUstensiles li")
+                        ulFilterUstensiles.innerHTML = ""
+                        divUstensiles.style.width ="223px"
+                        divUstensiles.style.height ="auto"
+                        divUstensiles.style.minHeight ="97px"
+                        //compare la valeur d'input aux valeurs du tableau
+                        console.log(arrayUstensiles)
+                        arrayUstensiles.forEach((newArrayUstensiles)=>{
+                            if(newArrayUstensiles.toUpperCase().includes(ustensilesInputValue.toUpperCase())){
+                                ustensilesInput.style.marginLeft ="20px"
+                                ulFilterUstensiles.innerHTML += `<li onclick="filterClick(this.id)" id=${newArrayUstensiles.replace(/ /g, "_")}>${newArrayUstensiles}</li>`
+                            }
+                        })
+                        //mise en forme de la zone filtre
+                        ulFilterUstensiles.style.flexDirection ="column"
+                        ulFilterUstensiles.style.width ="100%"
+                        li.forEach((newLi)=>{
+                            newLi.style.width = "100%"                            
+                        })
+                    } 
+                }
+                //gestion de raffraichissement en cas de backspace
+                else{
+                    let ustensilesInputValue = ustensilesInput.value
+                    ustensilesInputValue= ustensilesInputValue.substring(0, ustensilesInputValue.length)
+                    //dans le cas ou la valeur input = vide on réaffiche la liste de base
+                    if(ustensilesInputValue ===""){
+                        const li = document.querySelectorAll(".ulFilterUstensiles li")
+                        divUstensiles.style.width ="50%"
+                        divUstensiles.style.minHeight ="69px"
+                        ulFilterUstensiles.style.flexDirection ="row"
+                        li.forEach((newLi)=>{
+                            newLi.style.width = "33%"
+                        })
+                        const ulOrange = document.querySelector(".orange ul")
+                        ulOrange.innerHTML=""
+                        ulOrange.remove()
+                        filtery()
+                    }
+                }
+               
+            })
+        }
+        else{
+            const allLi = document.querySelectorAll(".orange ul");
+            ustensilesChevronUp.classList.remove("fa-chevron-up")
+            ustensilesChevronUp.classList.add("fa-chevron-down")
+            ustensilesChevronUp.style.marginTop ="0px"
+            ustensilesChevronUp.style.marginRight ="0px"
+            texteUstensiles.style.display = "block";
+            divUstensiles.style.width ="170px"
+            divUstensiles.style.height ="69px"
+            divUstensiles.style.minHeight ="69px"
+            inputUstensiles.style.marginLeft ="20px";
+            inputUstensiles.style.display = "none"
+            inputUstensiles.value ="";
+            divUstensilesHeader.style.alignItems="center"
+            arrayUstensiles = [];
+            //détruit toutes les listes à puces à la fermeture
             allLi.forEach((newAllLi)=>{
                 newAllLi.innerHTML=""
-                newAllLi.remove()
+                newAllLi.remove();
             })
-            divListeFiltre.remove()
+            divListeFiltre.remove();
         }
     })
 }
@@ -347,32 +497,42 @@ function filterClick(id){
     const activeFilterText = document.createElement("p") 
     const xMark = document.createElement("em") 
     const filterClicked = document.getElementById(`${id}`) 
-    displayFilterSection.appendChild(activeFilter)
-    activeFilter.appendChild(activeFilterText)
-    activeFilter.setAttribute("class","filterActive bleu")
-    id = id.replace(/_/g, " ")
-    activeFilterText.innerHTML=`${id}`
-    activeFilter.appendChild(xMark)
-    xMark.setAttribute("class","fa-regular fa-circle-xmark")
-    xMark.setAttribute("onclick","closeFilterActive(this.parentNode)")
-    filterClicked.removeAttribute("onclick")
-    //trier en fonction des filtres actifs
     let filterArray = []
     let filteryRecipes = []
     let allFilteryRecipes = []
     let filterRecipesIngredient = []
-    let filterActive = document.querySelectorAll(".filterActive")
-    filterActive.forEach((newFilterActive)=>{
-        filterArray.push(newFilterActive.textContent)
-    })
-    for(i=0; i < recipes.length; i++){
-        for(j=0; j <recipes[i].ingredients.length; j++){
-            //verifier la liste des ingredients
+    displayFilterSection.appendChild(activeFilter)
+    activeFilter.appendChild(activeFilterText)
+    id = id.replace(/_/g, " ")
+    activeFilter.appendChild(xMark)
+    xMark.setAttribute("class","fa-regular fa-circle-xmark")
+    xMark.setAttribute("onclick","closeFilterActive(this.parentNode)")
+    filterClicked.removeAttribute("onclick")
+    activeFilterText.innerHTML=`${id}`
+    //trier en fonction des filtres actifs
+    for(i=0; i<recipes.length; i++){
+        if(recipes[i].appliance.toUpperCase().includes(id.toUpperCase())){
+            activeFilter.setAttribute("class","filterActive vert")
+            filteryRecipes.push(recipes[i])
+        }
+        for(j=0; j<recipes[i].ingredients.length;j++){
             if(recipes[i].ingredients[j].ingredient.toUpperCase().includes(id.toUpperCase())){
+                activeFilter.setAttribute("class","filterActive bleu")
                 filteryRecipes.push(recipes[i])
             }
         }
-    }
+        for(j=0; j<recipes[i].ustensils.length;j++){
+            if(recipes[i].ustensils[j].toUpperCase().includes(id.toUpperCase())){
+                activeFilter.setAttribute("class","filterActive orange")
+                filteryRecipes.push(recipes[i])
+            }
+        }
+    }   
+    let filterActive = document.querySelectorAll(".filterActive")
+    //recuperer le contenu des filtres pour les mettres dans un tableau
+    filterActive.forEach((newFilterActive)=>{
+        filterArray.push(newFilterActive.textContent)
+    })
     //Prise en compte de plusieurs filtres
     if(filterArray != ""){
         for(i=0; i<filteryRecipes.length;i++){
@@ -380,6 +540,10 @@ function filterClick(id){
                 //Récuperation de tous les ingredients d'une recette pour la mettre dans un nouvel array
                 filterRecipesIngredient.push(filteryRecipes[i].ingredients[j].ingredient)
             }
+            for(k=0; k<filteryRecipes[i].ustensils.length;k++){
+                filterRecipesIngredient.push(filteryRecipes[i].ustensils[k])
+            }
+            filterRecipesIngredient.push(filteryRecipes[i].appliance)
             //Verification que tous les filtres sont inclus dans les ingredients
             const containsAll = filterArray.every(element =>{
                 return filterRecipesIngredient.includes(element)
@@ -389,13 +553,11 @@ function filterClick(id){
                 allFilteryRecipes.push(filteryRecipes[i])
             }
             filterRecipesIngredient.length = 0
-            console.log(filterRecipesIngredient)
         }
         displayData(allFilteryRecipes)
         //remise en forme de la section recette selon le nombre de recettes sorties
         //verification si le nombre de recette est un multiple de 4
         let remainder = allFilteryRecipes.length % 4
-        console.log(remainder)
         if(remainder != 0){
             const recipesSection = document.querySelector(".liste_recettes")
             const card = document.querySelectorAll(".card")
@@ -414,13 +576,66 @@ function filterClick(id){
 //fonction de suppression de filtre actif
 function closeFilterActive(parentNode){
     let activeFilterTextValue = parentNode.firstChild.textContent
+    let filterArray =[]
+    let filterRecipesIngredient = []
+    let allFilteryRecipes = []
+    let filterActive = document.querySelectorAll(".filterActive")
     activeFilterTextValue = activeFilterTextValue.replace(/ /g, "_")
     const filterClicked = document.getElementById(`${activeFilterTextValue}`)
     if(filterClicked){
     filterClicked.setAttribute("onclick","filterClick(this.id)")
     }
     parentNode.remove()
-
+    //update de la liste des recettes en fonctions des filtres restants
+    //recuperer le contenu des filtres pour les mettres dans un tableau
+    filterActive.forEach((newFilterActive)=>{
+        filterArray.push(newFilterActive.textContent)
+    })
+    //Prise en compte de plusieurs filtres
+    if(filterArray != ""){
+        for(i=0; i<recipes.length;i++){
+            for(j=0; j<recipes[i].ingredients.length;j++){
+                //Récuperation de tous les ingredients d'une recette pour la mettre dans un nouvel array
+                filterRecipesIngredient.push(recipes[i].ingredients[j].ingredient)
+            }
+            for(k=0; k<recipes[i].ustensils.length;k++){
+                filterRecipesIngredient.push(recipes[i].ustensils[k])
+            }
+            filterRecipesIngredient.push(recipes[i].appliance)
+            //Verification que tous les filtres sont inclus dans les ingredients
+            const containsAll = filterArray.every(element =>{
+                return filterRecipesIngredient.includes(element)
+            })
+            //Si oui, push la recette dans le tableau final
+            if(containsAll == true){
+                allFilteryRecipes.push(recipes[i])
+            }
+            filterRecipesIngredient.length = 0
+        }
+        displayData(allFilteryRecipes)
+        //remise en forme de la section recette selon le nombre de recettes sorties
+        //verification si le nombre de recette est un multiple de 4
+        let remainder = allFilteryRecipes.length % 4
+        if(remainder != 0){
+            const recipesSection = document.querySelector(".liste_recettes")
+            const card = document.querySelectorAll(".card")
+            console.log(card)
+            recipesSection.style.justifyContent ="start"
+            card.forEach((newCard)=>{
+                newCard.style.marginRight = "45px"
+            })            
+        }
+        else{
+            const recipesSection = document.querySelector(".liste_recettes")
+            recipesSection.style.justifyContent ="space-between"
+        }
+    }
+    //si vide, réafficher recipes classique
+    else{
+        const recipesSection = document.querySelector(".liste_recettes")
+        displayData(recipes)
+        recipesSection.style.justifyContent ="space-between"
+    }    
 }
 displayFilter()
 

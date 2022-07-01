@@ -139,6 +139,7 @@ function research(){
                         filterRecipesIngredient.length = 0
                     }
                     displayData(allFilteryRecipes)
+
                 }
                 else{
                     displayData(recipes)

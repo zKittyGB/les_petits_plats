@@ -222,6 +222,10 @@ function filtreIngredients(){
                             }
                         }
                     }
+                    //retrait des doublons dans arrayAppareils          
+                    arrayAppareils= arrayAppareils.filter(function(ele,pos){
+                        return arrayAppareils.indexOf(ele)==pos;
+                    })
                     for(i= 0; i< arrayAppareils.length; i++){
                         divListeFiltre.appendChild(ulFilterAppareils)
                         ulFilterAppareils.innerHTML += `<li id=${arrayAppareils[i].replace(/ /g, "_")}>${arrayAppareils[i]}</li>`
@@ -300,12 +304,10 @@ function filtreIngredients(){
             divAppareilsHeader.style.alignItems="center"
             arrayAppareils = []
             //détruit toutes les listes à puces à la fermeture
-
             for(i=0; i<ul.length; i++){
                 ul[i].innerHTML=""
                 ul[i].remove()
             }
-
             divListeFiltre.innerHTML=""
             divListeFiltre.remove()
         }
@@ -374,7 +376,7 @@ function filtreIngredients(){
                     })
                     for(i= 0; i< arrayUstensiles.length; i++){
                         divListeFiltre.appendChild(ulFilterUstensiles)
-                        ulFilterUstensiles.innerHTML += `<li id=${ulFilterUstensiles[i].replace(/ /g, "_")}>${ulFilterUstensiles[i]}</li>`
+                        ulFilterUstensiles.innerHTML += `<li id=${arrayUstensiles[i].replace(/ /g, "_")}>${arrayUstensiles[i]}</li>`
                         ulFilterUstensiles.setAttribute("class","ulFilterUstensiles")
                         const li = document.querySelectorAll(".ulFilterUstensiles li")
                         li.forEach((newLi)=>{
@@ -579,13 +581,14 @@ function closeFilterActive(parentNode){
     let filterArray =[]
     let filterRecipesIngredient = []
     let allFilteryRecipes = []
-    let filterActive = document.querySelectorAll(".filterActive")
     activeFilterTextValue = activeFilterTextValue.replace(/ /g, "_")
     const filterClicked = document.getElementById(`${activeFilterTextValue}`)
     if(filterClicked){
     filterClicked.setAttribute("onclick","filterClick(this.id)")
     }
     parentNode.remove()
+    //doit déclarer après le retrait pour ne pas integrer le filtre supprimé dans les filtres actifs
+    let filterActive = document.querySelectorAll(".filterActive")
     //update de la liste des recettes en fonctions des filtres restants
     //recuperer le contenu des filtres pour les mettres dans un tableau
     filterActive.forEach((newFilterActive)=>{
@@ -619,7 +622,6 @@ function closeFilterActive(parentNode){
         if(remainder != 0){
             const recipesSection = document.querySelector(".liste_recettes")
             const card = document.querySelectorAll(".card")
-            console.log(card)
             recipesSection.style.justifyContent ="start"
             card.forEach((newCard)=>{
                 newCard.style.marginRight = "45px"
@@ -638,4 +640,3 @@ function closeFilterActive(parentNode){
     }    
 }
 displayFilter()
-

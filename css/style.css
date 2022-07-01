@@ -39,12 +39,14 @@ header{
 }
 
 .search_glass{
+    position: absolute;
+    right:90px;
     background:none;
-    position:absolute;
-    right:100px;
-    height:69px;
+    height:70px;
+    margin-bottom:8px;
     border:none;
 }
+
 /*!!! Fin mise en forme zone recherche !!!*/
 
 /*!!! Début mise en forme filtres !!!*/
@@ -182,6 +184,7 @@ header{
     margin-bottom: 10px;
 }
 .ulFilterIngredients{
+    width:100%;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -190,6 +193,7 @@ header{
     overflow: hidden;
 }
 .ulFilterAppareils{
+    width:100%;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -198,6 +202,8 @@ header{
     overflow: hidden;
 }
 .ulFilterUstensiles{
+    width:100%;
+
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;

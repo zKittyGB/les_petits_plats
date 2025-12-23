@@ -35,4 +35,4 @@ The website dynamically updates results based on users’ interactions.
 
 1. Clone this repository:
    ```bash
-   git clone https://github.com/zKittyGB/LesPetitsPlats.git
+   git clone https://github.com/zKittyGB/les_petits_plats.git
